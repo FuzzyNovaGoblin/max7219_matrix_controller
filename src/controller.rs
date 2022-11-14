@@ -4,7 +4,7 @@ use anyhow::{anyhow, Ok, Result};
 use embedded_hal::digital::v2::OutputPin;
 use max7219::{connectors::PinConnector, MAX7219};
 
-use crate::letters::letter_cache;
+use crate::symbols::symbol_cache;
 
 pub struct MaxController<DATA, CS, CLK>
 where
@@ -70,24 +70,24 @@ where
         Ok(())
     }
 
-    pub fn test_letter(&mut self) {
-        let mut letter_vec = letter_cache::cache_keys();
-        letter_vec.sort();
-        for letters in letter_vec
+    pub fn test_symbol(&mut self) {
+        let mut symbol_vec = symbol_cache::cache_keys();
+        symbol_vec.sort();
+        for symbols in symbol_vec
             .iter()
-            .zip(letter_vec.iter().skip(1).chain(letter_vec.iter().take(1)))
-            .zip(letter_vec.iter().skip(2).chain(letter_vec.iter().take(2)))
-            .zip(letter_vec.iter().skip(3).chain(letter_vec.iter().take(3)))
-            .map(|(((letter_0, letter_1), letter_2), letter_3)| {
-                vec![letter_0, letter_1, letter_2, letter_3]
+            .zip(symbol_vec.iter().skip(1).chain(symbol_vec.iter().take(1)))
+            .zip(symbol_vec.iter().skip(2).chain(symbol_vec.iter().take(2)))
+            .zip(symbol_vec.iter().skip(3).chain(symbol_vec.iter().take(3)))
+            .map(|(((symbol_0, symbol_1), symbol_2), symbol_3)| {
+                vec![symbol_0, symbol_1, symbol_2, symbol_3]
             })
         {
-            for (i, letter) in letters.iter().enumerate() {
+            for (i, symbol) in symbols.iter().enumerate() {
                 if let Err(e) = self
                     .connection
-                    .write_raw(i, letter_cache::get_letter(letter).unwrap().get_u8_grid())
+                    .write_raw(i, symbol_cache::get_symbol(symbol).unwrap().get_u8_grid())
                 {
-                    eprintln!("error in getting u8 grid of {}\n error: {:?}", letter, e);
+                    eprintln!("error in getting u8 grid of {}\n error: {:?}", symbol, e);
                 }
             }
             sleep(Duration::from_millis(500));

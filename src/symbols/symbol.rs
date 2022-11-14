@@ -1,12 +1,12 @@
 #[derive(Debug, Clone)]
-pub struct Letter {
+pub struct Symbol {
     bits: [Vec<bool>; 8],
     width: u8,
     u8_grid: [u8; 8],
 }
 
-impl Letter {
-    pub fn new(bits: [Vec<bool>; 8], width: u8) -> Letter {
+impl Symbol {
+    pub fn new(bits: [Vec<bool>; 8], width: u8) -> Symbol {
         let mut u8_grid = [0; 8];
 
         for (i, r) in bits.iter().enumerate() {
@@ -20,7 +20,7 @@ impl Letter {
             u8_grid[i] = num;
         }
 
-        Letter {
+        Symbol {
             bits,
             width,
             u8_grid,

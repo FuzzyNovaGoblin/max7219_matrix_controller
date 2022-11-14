@@ -1,13 +1,13 @@
-use super::letter::{self, Letter};
+use super::symbol::{self, Symbol};
 use std::collections::HashMap;
 
-static mut LETTER_CACHE: Option<HashMap<char, letter::Letter>> = None;
+static mut LETTER_CACHE: Option<HashMap<char, symbol::Symbol>> = None;
 
-pub fn get_letter(letter: &char) -> Option<letter::Letter> {
+pub fn get_symbol(symbol: &char) -> Option<symbol::Symbol> {
     init_cache();
     unsafe {
         match &LETTER_CACHE {
-            Some(letter_cache) => letter_cache.get(letter).cloned(),
+            Some(symbol_cache) => symbol_cache.get(symbol).cloned(),
             None => None,
         }
     }
@@ -24,29 +24,29 @@ pub fn init_cache() {
 pub fn cache_keys() -> Vec<char> {
     init_cache();
     unsafe {
-        if let Some(letter_cahce) = LETTER_CACHE.clone() {
-            letter_cahce.keys().cloned().collect()
+        if let Some(symbol_cahce) = LETTER_CACHE.clone() {
+            symbol_cahce.keys().cloned().collect()
         } else {
             panic!()
         }
     }
 }
-pub fn cache_values() -> Vec<Letter> {
+pub fn cache_values() -> Vec<Symbol> {
     init_cache();
     unsafe {
-        if let Some(letter_cahce) = &LETTER_CACHE {
-            letter_cahce.values().cloned().collect()
+        if let Some(symbol_cahce) = &LETTER_CACHE {
+            symbol_cahce.values().cloned().collect()
         } else {
             panic!()
         }
     }
 }
 
-pub fn is_available_letter(letter: &char) -> bool {
+pub fn is_available_symbol(symbol: &char) -> bool {
     init_cache();
     unsafe {
-        if let Some(letter_cahce) = &LETTER_CACHE {
-            letter_cahce.contains_key(letter)
+        if let Some(symbol_cahce) = &LETTER_CACHE {
+            symbol_cahce.contains_key(symbol)
         } else {
             false
         }
@@ -54,11 +54,11 @@ pub fn is_available_letter(letter: &char) -> bool {
 }
 
 fn build_cache() {
-    let mut letter_cache = HashMap::new();
+    let mut symbol_cache = HashMap::new();
 
-    letter_cache.insert(
+    symbol_cache.insert(
         'A',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![false, false, true],
@@ -73,9 +73,9 @@ fn build_cache() {
         ),
     );
 
-    letter_cache.insert(
+    symbol_cache.insert(
         'B',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true, true, true, true],
@@ -90,9 +90,9 @@ fn build_cache() {
         ),
     );
 
-    letter_cache.insert(
+    symbol_cache.insert(
         'C',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![false, true, true, true],
@@ -106,9 +106,9 @@ fn build_cache() {
             5,
         ),
     );
-    letter_cache.insert(
+    symbol_cache.insert(
         'D',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true, true, true, true],
@@ -123,9 +123,9 @@ fn build_cache() {
         ),
     );
 
-    letter_cache.insert(
+    symbol_cache.insert(
         'E',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true, true, true, true, true],
@@ -139,9 +139,9 @@ fn build_cache() {
             5,
         ),
     );
-    letter_cache.insert(
+    symbol_cache.insert(
         'F',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true, true, true, true, true],
@@ -155,9 +155,9 @@ fn build_cache() {
             5,
         ),
     );
-    letter_cache.insert(
+    symbol_cache.insert(
         'G',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true, true, true, true, true],
@@ -172,9 +172,9 @@ fn build_cache() {
         ),
     );
 
-    letter_cache.insert(
+    symbol_cache.insert(
         'H',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true, false, false, false, true],
@@ -189,9 +189,9 @@ fn build_cache() {
         ),
     );
 
-    letter_cache.insert(
+    symbol_cache.insert(
         'I',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true, true, true, true, true],
@@ -206,9 +206,9 @@ fn build_cache() {
         ),
     );
 
-    letter_cache.insert(
+    symbol_cache.insert(
         'J',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![false, false, false, false, true],
@@ -222,9 +222,9 @@ fn build_cache() {
             5,
         ),
     );
-    letter_cache.insert(
+    symbol_cache.insert(
         'K',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true, false, false, false, true],
@@ -238,9 +238,9 @@ fn build_cache() {
             5,
         ),
     );
-    letter_cache.insert(
+    symbol_cache.insert(
         'L',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true],
@@ -255,9 +255,9 @@ fn build_cache() {
         ),
     );
 
-    letter_cache.insert(
+    symbol_cache.insert(
         'M',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true, false, false, false, true],
@@ -272,9 +272,9 @@ fn build_cache() {
         ),
     );
 
-    letter_cache.insert(
+    symbol_cache.insert(
         'N',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true, false, false, false, true],
@@ -288,9 +288,9 @@ fn build_cache() {
             5,
         ),
     );
-    letter_cache.insert(
+    symbol_cache.insert(
         'O',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![false, true, true, true],
@@ -304,9 +304,9 @@ fn build_cache() {
             5,
         ),
     );
-    letter_cache.insert(
+    symbol_cache.insert(
         'P',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true, true, true, true],
@@ -321,9 +321,9 @@ fn build_cache() {
         ),
     );
 
-    letter_cache.insert(
+    symbol_cache.insert(
         'Q',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![false, true, true],
@@ -338,9 +338,9 @@ fn build_cache() {
         ),
     );
 
-    letter_cache.insert(
+    symbol_cache.insert(
         'R',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true, true, true, true],
@@ -355,9 +355,9 @@ fn build_cache() {
         ),
     );
 
-    letter_cache.insert(
+    symbol_cache.insert(
         'S',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![false, true, true, true],
@@ -371,9 +371,9 @@ fn build_cache() {
             5,
         ),
     );
-    letter_cache.insert(
+    symbol_cache.insert(
         'T',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true, true, true, true, true],
@@ -387,9 +387,9 @@ fn build_cache() {
             5,
         ),
     );
-    letter_cache.insert(
+    symbol_cache.insert(
         'U',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true, false, false, false, true],
@@ -403,9 +403,9 @@ fn build_cache() {
             5,
         ),
     );
-    letter_cache.insert(
+    symbol_cache.insert(
         'V',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true, false, false, false, true],
@@ -419,9 +419,9 @@ fn build_cache() {
             5,
         ),
     );
-    letter_cache.insert(
+    symbol_cache.insert(
         'W',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true, false, false, false, true],
@@ -435,9 +435,9 @@ fn build_cache() {
             5,
         ),
     );
-    letter_cache.insert(
+    symbol_cache.insert(
         'X',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true, false, false, false, true],
@@ -451,9 +451,9 @@ fn build_cache() {
             5,
         ),
     );
-    letter_cache.insert(
+    symbol_cache.insert(
         'Y',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true, false, false, false, true],
@@ -467,9 +467,9 @@ fn build_cache() {
             5,
         ),
     );
-    letter_cache.insert(
+    symbol_cache.insert(
         'Z',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true, true, true, true, true],
@@ -483,9 +483,9 @@ fn build_cache() {
             5,
         ),
     );
-    letter_cache.insert(
+    symbol_cache.insert(
         ' ',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![],
@@ -499,9 +499,9 @@ fn build_cache() {
             5,
         ),
     );
-    letter_cache.insert(
+    symbol_cache.insert(
         '.',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![],
@@ -515,9 +515,9 @@ fn build_cache() {
             2,
         ),
     );
-    letter_cache.insert(
+    symbol_cache.insert(
         '?',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![false, true, true, true],
@@ -531,9 +531,9 @@ fn build_cache() {
             5,
         ),
     );
-    letter_cache.insert(
+    symbol_cache.insert(
         '!',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![true],
@@ -547,9 +547,9 @@ fn build_cache() {
             1,
         ),
     );
-    letter_cache.insert(
+    symbol_cache.insert(
         ',',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![],
@@ -564,9 +564,9 @@ fn build_cache() {
         ),
     );
 
-    letter_cache.insert(
+    symbol_cache.insert(
         ';',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![],
@@ -581,9 +581,9 @@ fn build_cache() {
         ),
     );
 
-    letter_cache.insert(
+    symbol_cache.insert(
         ':',
-        letter::Letter::new(
+        symbol::Symbol::new(
             [
                 vec![],
                 vec![],
@@ -599,6 +599,6 @@ fn build_cache() {
     );
 
     unsafe {
-        LETTER_CACHE = Some(letter_cache);
+        LETTER_CACHE = Some(symbol_cache);
     }
 }
