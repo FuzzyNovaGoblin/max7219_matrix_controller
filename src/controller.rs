@@ -1,10 +1,10 @@
-use std::{fmt::format, thread::sleep, time::Duration};
+use std::{thread::sleep, time::Duration};
 
 use anyhow::{anyhow, Ok, Result};
 use embedded_hal::digital::v2::OutputPin;
 use max7219::{connectors::PinConnector, MAX7219};
 
-use crate::letters::{letter, letter_cache};
+use crate::letters::letter_cache;
 
 pub struct MaxController<DATA, CS, CLK>
 where
@@ -37,20 +37,20 @@ where
 
     pub fn clear(&mut self) {
         for i in 0..self.module_count {
-            if let Err(_) = self.connection.clear_display(i) {
+            if self.connection.clear_display(i).is_err() {
                 eprintln!("error in clear method {}:{}", file!(), line!());
             }
         }
     }
 
     pub fn power_on(&mut self) {
-        if let Err(_) = self.connection.power_on() {
+        if self.connection.power_on().is_err() {
             eprintln!("error in power on method {}:{}", file!(), line!());
         };
     }
 
     pub fn power_off(&mut self) {
-        if let Err(_) = self.connection.power_off() {
+        if self.connection.power_off().is_err() {
             eprintln!("error in power off method {}:{}", file!(), line!());
         };
     }
@@ -71,13 +71,26 @@ where
     }
 
     pub fn test_letter(&mut self) {
-        for letter in 'A'..='Z' {
-            // for letter in letter_cache::available_letters(){
-            if letter_cache::is_available_letter(&letter) {
-                self.connection
-                    .write_raw(2, letter_cache::get_letter(&letter).unwrap().get_u8_grid());
-                sleep(Duration::from_millis(700));
+        let mut letter_vec = letter_cache::cache_keys();
+        letter_vec.sort();
+        for letters in letter_vec
+            .iter()
+            .zip(letter_vec.iter().skip(1).chain(letter_vec.iter().take(1)))
+            .zip(letter_vec.iter().skip(2).chain(letter_vec.iter().take(2)))
+            .zip(letter_vec.iter().skip(3).chain(letter_vec.iter().take(3)))
+            .map(|(((letter_0, letter_1), letter_2), letter_3)| {
+                vec![letter_0, letter_1, letter_2, letter_3]
+            })
+        {
+            for (i, letter) in letters.iter().enumerate() {
+                if let Err(e) = self
+                    .connection
+                    .write_raw(i, letter_cache::get_letter(letter).unwrap().get_u8_grid())
+                {
+                    eprintln!("error in getting u8 grid of {}\n error: {:?}", letter, e);
+                }
             }
+            sleep(Duration::from_millis(500));
         }
     }
 

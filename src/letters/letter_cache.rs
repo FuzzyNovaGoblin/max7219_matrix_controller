@@ -1,5 +1,5 @@
 use super::letter::{self, Letter};
-use std::collections::{hash_map::Keys, HashMap};
+use std::collections::HashMap;
 
 static mut LETTER_CACHE: Option<HashMap<char, letter::Letter>> = None;
 
@@ -15,17 +15,27 @@ pub fn get_letter(letter: &char) -> Option<letter::Letter> {
 
 pub fn init_cache() {
     unsafe {
-        if let None = LETTER_CACHE {
-            build_cahche();
+        if LETTER_CACHE.is_none() {
+            build_cache();
         }
     }
 }
 
-pub fn available_letters() -> Vec<char> {
-    build_cahche();
+pub fn cache_keys() -> Vec<char> {
+    init_cache();
+    unsafe {
+        if let Some(letter_cahce) = LETTER_CACHE.clone() {
+            letter_cahce.keys().cloned().collect()
+        } else {
+            panic!()
+        }
+    }
+}
+pub fn cache_values() -> Vec<Letter> {
+    init_cache();
     unsafe {
         if let Some(letter_cahce) = &LETTER_CACHE {
-            letter_cahce.keys().cloned().collect()
+            letter_cahce.values().cloned().collect()
         } else {
             panic!()
         }
@@ -33,7 +43,7 @@ pub fn available_letters() -> Vec<char> {
 }
 
 pub fn is_available_letter(letter: &char) -> bool {
-    build_cahche();
+    init_cache();
     unsafe {
         if let Some(letter_cahce) = &LETTER_CACHE {
             letter_cahce.contains_key(letter)
@@ -43,7 +53,7 @@ pub fn is_available_letter(letter: &char) -> bool {
     }
 }
 
-fn build_cahche() {
+fn build_cache() {
     let mut letter_cache = HashMap::new();
 
     letter_cache.insert(
@@ -51,8 +61,8 @@ fn build_cahche() {
         letter::Letter::new(
             [
                 vec![],
-                vec![false, false, true, false, false],
-                vec![false, true, false, true, false],
+                vec![false, false, true],
+                vec![false, true, false, true],
                 vec![true, false, false, false, true],
                 vec![true, true, true, true, true],
                 vec![true, false, false, false, true],
@@ -185,11 +195,11 @@ fn build_cahche() {
             [
                 vec![],
                 vec![true, true, true, true, true],
-                vec![false, false, true, false, false],
-                vec![false, false, true, false, false],
-                vec![false, false, true, false, false],
-                vec![false, false, true, false, false],
-                vec![false, false, true, false, false],
+                vec![false, false, true],
+                vec![false, false, true],
+                vec![false, false, true],
+                vec![false, false, true],
+                vec![false, false, true],
                 vec![true, true, true, true, true],
             ],
             5,
@@ -201,15 +211,390 @@ fn build_cahche() {
         letter::Letter::new(
             [
                 vec![],
-                vec![false,false,false,false,true],
-                vec![false,false,false,false,true],
-                vec![false,false,false,false,true],
-                vec![false,false,false,false,true],
-                vec![true,false,false,false,true],
-                vec![true,false,false,false,true],
-                vec![false, true, true, true, false],
+                vec![false, false, false, false, true],
+                vec![false, false, false, false, true],
+                vec![false, false, false, false, true],
+                vec![false, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![false, true, true, true],
             ],
             5,
+        ),
+    );
+    letter_cache.insert(
+        'K',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, true],
+                vec![true, true, true],
+                vec![true, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+            ],
+            5,
+        ),
+    );
+    letter_cache.insert(
+        'L',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![true],
+                vec![true],
+                vec![true],
+                vec![true],
+                vec![true],
+                vec![true],
+                vec![true, true, true, true, true],
+            ],
+            5,
+        ),
+    );
+
+    letter_cache.insert(
+        'M',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![true, false, false, false, true],
+                vec![true, true, false, true, true],
+                vec![true, false, true, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+            ],
+            5,
+        ),
+    );
+
+    letter_cache.insert(
+        'N',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, true, false, false, true],
+                vec![true, false, true, false, true],
+                vec![true, false, false, true, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+            ],
+            5,
+        ),
+    );
+    letter_cache.insert(
+        'O',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![false, true, true, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![false, true, true, true],
+            ],
+            5,
+        ),
+    );
+    letter_cache.insert(
+        'P',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![true, true, true, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, true, true, true],
+                vec![true],
+                vec![true],
+                vec![true],
+            ],
+            5,
+        ),
+    );
+
+    letter_cache.insert(
+        'Q',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![false, true, true],
+                vec![true, false, false, true],
+                vec![true, false, false, true],
+                vec![true, false, false, true],
+                vec![true, false, true, true],
+                vec![true, false, false, true],
+                vec![false, true, true, false, true],
+            ],
+            5,
+        ),
+    );
+
+    letter_cache.insert(
+        'R',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![true, true, true, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, true, true, true],
+                vec![true, false, true],
+                vec![true, false, false, true],
+                vec![true, false, false, false, true],
+            ],
+            5,
+        ),
+    );
+
+    letter_cache.insert(
+        'S',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![false, true, true, true],
+                vec![true, false, false, false, true],
+                vec![true],
+                vec![false, true, true, true],
+                vec![false, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![false, true, true, true],
+            ],
+            5,
+        ),
+    );
+    letter_cache.insert(
+        'T',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![true, true, true, true, true],
+                vec![false, false, true],
+                vec![false, false, true],
+                vec![false, false, true],
+                vec![false, false, true],
+                vec![false, false, true],
+                vec![false, false, true],
+            ],
+            5,
+        ),
+    );
+    letter_cache.insert(
+        'U',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![false, true, true, true],
+            ],
+            5,
+        ),
+    );
+    letter_cache.insert(
+        'V',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![false, true, false, true],
+                vec![false, false, true],
+            ],
+            5,
+        ),
+    );
+    letter_cache.insert(
+        'W',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, true, false, true],
+                vec![true, false, true, false, true],
+                vec![false, true, false, true],
+            ],
+            5,
+        ),
+    );
+    letter_cache.insert(
+        'X',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![false, true, false, true],
+                vec![false, false, true],
+                vec![false, true, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+            ],
+            5,
+        ),
+    );
+    letter_cache.insert(
+        'Y',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![true, false, false, false, true],
+                vec![false, true, false, true],
+                vec![false, false, true],
+                vec![false, false, true],
+                vec![false, false, true],
+            ],
+            5,
+        ),
+    );
+    letter_cache.insert(
+        'Z',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![true, true, true, true, true],
+                vec![false, false, false, false, true],
+                vec![false, false, false, true],
+                vec![false, false, true],
+                vec![false, true],
+                vec![true],
+                vec![true, true, true, true, true],
+            ],
+            5,
+        ),
+    );
+    letter_cache.insert(
+        ' ',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![],
+                vec![],
+                vec![],
+                vec![],
+                vec![],
+                vec![],
+                vec![],
+            ],
+            5,
+        ),
+    );
+    letter_cache.insert(
+        '.',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![],
+                vec![],
+                vec![],
+                vec![],
+                vec![],
+                vec![true, true],
+                vec![true, true],
+            ],
+            2,
+        ),
+    );
+    letter_cache.insert(
+        '?',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![false, true, true, true],
+                vec![true, false, false, false, true],
+                vec![false, false, false, false, true],
+                vec![false, false, false, true],
+                vec![false, false, true],
+                vec![],
+                vec![false, false, true],
+            ],
+            5,
+        ),
+    );
+    letter_cache.insert(
+        '!',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![true],
+                vec![true],
+                vec![true],
+                vec![true],
+                vec![true],
+                vec![],
+                vec![true],
+            ],
+            1,
+        ),
+    );
+    letter_cache.insert(
+        ',',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![],
+                vec![],
+                vec![],
+                vec![],
+                vec![],
+                vec![false, true],
+                vec![true],
+            ],
+            2,
+        ),
+    );
+
+    letter_cache.insert(
+        ';',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![],
+                vec![],
+                vec![true, true],
+                vec![true, true],
+                vec![],
+                vec![false, true],
+                vec![true],
+            ],
+            2,
+        ),
+    );
+
+    letter_cache.insert(
+        ':',
+        letter::Letter::new(
+            [
+                vec![],
+                vec![],
+                vec![],
+                vec![true, true],
+                vec![true, true],
+                vec![],
+                vec![true, true],
+                vec![true, true],
+            ],
+            2,
         ),
     );
 
