@@ -8,4 +8,3 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.66"
 embedded-hal = "0.2.7"
-max7219 = "0.3.1"
